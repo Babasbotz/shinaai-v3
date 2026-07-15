@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHINA-AI - WhatsApp Bot Multi-Device</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=300;400;500;600;700;800&family=Space+Grotesk:wght=500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        space: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        iosGray: '#1c1c1e',
+                        iosDark: '#0a0a0c',
+                        animePurple: '#8b5cf6',
+                        animePink: '#ec4899',
+                        animeCyan: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0a0a0c;
+            overflow-x: hidden;
+        }
+        /* Glassmorphism ala iOS */
+        .ios-glass {
+            background: rgba(28, 28, 30, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .ios-glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .ios-glass-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(139, 92, 246, 0.4);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.1);
+        }
+        /* Animasi Neon Glowing */
+        .text-glow {
+            text-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0c;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 99px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8b5cf6;
+        }
+    </style>
+</head>
+<body class="text-gray-200 antialiased selection:bg-animePurple/30 selection:text-white">
+
+    <!-- Background Decorative Anime Aura -->
+    <div class="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-animePurple/10 blur-[150px] pointer-events-none z-0"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-animePink/10 blur-[150px] pointer-events-none z-0"></div>
+
+    <!-- Header / Navigation (iOS Dynamic Island Style) -->
+    <header class="fixed top-4 left-1/2 -translate-x-1/2 w-[92%] max-w-5xl z-50">
+        <nav class="ios-glass px-6 py-3.5 rounded-[24px] flex items-center justify-between shadow-2xl">
+            <div class="flex items-center gap-2">
+                <span class="text-xl font-extrabold tracking-wider bg-gradient-to-r from-animePurple via-animePink to-animeCyan bg-clip-text text-transparent font-space">
+                    SHINA<span class="text-white">-AI</span>
+                </span>
+                <span class="bg-animePurple/20 text-animePurple text-[10px] px-2 py-0.5 rounded-full font-semibold border border-animePurple/30">v3.0.0</span>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
+                <a href="#fitur" class="hover:text-white transition">Fitur</a>
+                <a href="#demo" class="hover:text-white transition">Simulasi</a>
+                <a href="#harga" class="hover:text-white transition">Harga</a>
+                <a href="#kontak" class="hover:text-white transition">Kontak</a>
+            </div>
+
+            <a href="#harga" class="bg-white text-black hover:bg-gray-200 text-xs md:text-sm font-bold px-5 py-2.5 rounded-[99px] transition-all active:scale-95 shadow-lg flex items-center gap-1.5">
+                Sewa Sekarang <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="relative pt-32 pb-20 px-4 max-w-7xl mx-auto z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center min-h-[80vh]">
+            
+            <!-- Hero Left: Text Content -->
+            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-animePink font-medium">
+                    <span class="w-2 h-2 rounded-full bg-animePink animate-ping"></span>
+                    Online
+                </div>
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-tight font-space">
+                    Kelola Grup WhatsApp <br>
+                    Dengan <span class="bg-gradient-to-r from-animePurple to-animePink bg-clip-text text-transparent text-glow">SHINA-AI</span>.
+                </h1>
+                <p class="text-gray-400 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 font-light">
+                    Asisten virtual otomatis terlengkap untuk WhatsApp Anda. Dilengkapi AI pintar, sistem Game seru, manajemen grup super ketat, dan ratusan perintah seru lainnya!
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
+                    <a href="#harga" class="bg-gradient-to-r from-animePurple to-animePink hover:opacity-90 text-white font-bold px-8 py-4 rounded-2xl shadow-xl transition-all active:scale-95 text-center flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-bolt"></i> Lihat Paket Harga
+                    </a>
+                    <a href="#demo" class="ios-glass hover:bg-white/5 text-white border border-white/10 font-bold px-8 py-4 rounded-2xl transition-all text-center flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-play"></i> Coba Simulasi Fitur
+                    </a>
+                </div>
+            </div>
+
+            <!-- Hero Right: Interactive iPhone Mockup -->
+            <div class="lg:col-span-5 flex justify-center relative">
+                <!-- Glowing Anime Background for Phone -->
+                <div class="absolute w-[80%] h-[80%] bg-gradient-to-tr from-animePurple/20 to-animePink/20 rounded-full blur-3xl -z-10"></div>
+                
+                <!-- iPhone Chassis -->
+                <div class="relative w-[310px] h-[630px] bg-[#000] rounded-[50px] p-[10px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] border-[4px] border-[#2c2c2e]">
+                    <!-- iPhone Dynamic Island -->
+                    <div class="absolute top-4 left-1/2 -translate-x-1/2 w-[110px] h-[28px] bg-black rounded-full z-40 flex items-center justify-end px-3">
+                        <div class="w-3 h-3 rounded-full bg-[#111] border border-white/10"></div>
+                    </div>
+                    
+                    <!-- iPhone Screen Content (Chat App) -->
+                    <div class="w-full h-full bg-[#121214] rounded-[40px] overflow-hidden flex flex-col relative">
+                        <!-- Chat Header -->
+                        <div class="bg-[#1c1c1e]/90 backdrop-blur-md pt-7 pb-3 px-4 border-b border-white/5 flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-animePurple to-animePink p-[1.5px]">
+                                <!-- Anime Avatar Placeholder -->
+                                <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Shinaai" alt="Shina-ai Avatar" class="w-full h-full rounded-full bg-[#121214]">
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-white flex items-center gap-1.5">
+                                    SHINA-AI <i class="fa-solid fa-circle-check text-blue-400 text-[10px]"></i>
+                                </h4>
+                                <span class="text-[9px] text-green-400 flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span> Online (Multi-Device)
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Chat Area (Scrollable) -->
+                        <div class="flex-1 p-3 overflow-y-auto space-y-3 text-[11px]">
+                            <!-- System Message -->
+                            <div class="text-center text-[9px] text-gray-500 my-1">Hari ini 12:00</div>
+
+                            <!-- User Message -->
+                            <div class="flex justify-end">
+                                <div class="bg-animePurple text-white px-3 py-2 rounded-2xl rounded-tr-none max-w-[80%] shadow-md">
+                                    .menu
+                                </div>
+                            </div>
+
+                            <!-- Bot Response (Menu) -->
+                            <div class="flex justify-start">
+                                <div class="bg-[#1c1c1e] text-gray-300 px-3 py-2 rounded-2xl rounded-tl-none max-w-[90%] border border-white/5 shadow-md space-y-1.5">
+                                    <p class="text-animePink font-bold text-[10px]">✨ SHINA-AI MENU ✨</p>
+                                    <p class="text-gray-400">Hai Kak! Berikut adalah beberapa fitur unggulan yang siap melayani grup kamu:</p>
+                                    <div class="space-y-0.5 text-gray-300 font-mono text-[10px]">
+                                        <p>⚡ <b>⚡ ANIME MENU</b></p>
+                                        <p>└ .waifu, .neko, .husbu, .trace</p>
+                                        <p>⚡ <b>🎮 GAME & RPG</b></p>
+                                        <p>└ .adventure, .fight, .gacha</p>
+                                        <p>⚡ <b>⚙️ GROUP UTILITY</b></p>
+                                        <p>└ .kick, .add, .welcome, .hidetag</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- User Message 2 -->
+                            <div class="flex justify-end">
+                                <div class="bg-animePurple text-white px-3 py-2 rounded-2xl rounded-tr-none max-w-[80%] shadow-md">
+                                    .waifu
+                                </div>
+                            </div>
+
+                            <!-- Bot Response 2 (Image Waifu) -->
+                            <div class="flex justify-start">
+                                <div class="bg-[#1c1c1e] text-gray-300 p-1.5 rounded-2xl rounded-tl-none max-w-[85%] border border-white/5 shadow-md">
+                                    <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=400&auto=format&fit=crop&q=60" alt="Anime Waifu" class="rounded-xl w-full h-32 object-cover mb-1.5">
+                                    <div class="px-1.5 pb-1">
+                                        <p class="text-animeCyan font-bold text-[10px]">✨ Waifu Generated!</p>
+                                        <p class="text-gray-400 text-[9px]">Requested by: Kak Babas</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chat Input (iOS Style) -->
+                        <div class="p-2 bg-[#1c1c1e]/90 border-t border-white/5 flex items-center gap-1.5">
+                            <div class="flex-1 bg-[#2c2c2e] rounded-full px-3 py-1.5 flex items-center justify-between text-gray-400">
+                                <span class="text-[10px]">Ketik perintah bot...</span>
+                                <i class="fa-regular fa-face-smile text-xs"></i>
+                            </div>
+                            <div class="w-7 h-7 rounded-full bg-animePurple flex items-center justify-center text-white">
+                                <i class="fa-solid fa-arrow-up text-[10px]"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Features Section -->
+    <section id="fitur" class="py-20 bg-[#0c0c0e] border-y border-white/5 relative z-10">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-animePurple font-bold text-xs uppercase tracking-widest">Fitur Superior</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold font-space mt-2">Didesain Untuk Kemudahan Anda</h2>
+                <p class="text-gray-400 mt-3">Tidak perlu server, tidak perlu coding. Semuanya siap pakai dengan stabilitas tinggi.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="ios-glass-card p-8 rounded-[32px] space-y-4">
+                    <div class="w-12 h-12 rounded-2xl bg-animePurple/10 border border-animePurple/30 flex items-center justify-center text-animePurple text-xl shadow-lg">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h3 class="text-lg font-bold">Koneksi Multi-Device</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Bot tetap aktif 24/7 tanpa perlu menjaga ponsel Anda terus tersambung ke internet. Ringan, cepat, dan responsif.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="ios-glass-card p-8 rounded-[32px] space-y-4">
+                    <div class="w-12 h-12 rounded-2xl bg-animePink/10 border border-animePink/30 flex items-center justify-center text-animePink text-xl shadow-lg">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="text-lg font-bold">Keamanan Grup Terjamin</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Dilengkapi fitur auto-kick untuk link grup lain, pendeteksi spammer, admin panel canggih, serta filter pesan sensitif otomatis.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="ios-glass-card p-8 rounded-[32px] space-y-4">
+                    <div class="w-12 h-12 rounded-2xl bg-animeCyan/10 border border-animeCyan/30 flex items-center justify-center text-animeCyan text-xl shadow-lg">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <h3 class="text-lg font-bold">Kaya Fitur Hiburan</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Gacha karakter anime, game RPG mini, kuis tebak-tebakan, AI Chatbot (GPT), hingga generator stiker otomatis hanya lewat satu perintah.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Simulation Section (Tanpa Harus Mencoba Bot Asli) -->
+    <section id="demo" class="py-20 max-w-6xl mx-auto px-4 relative z-10">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+            <span class="text-animeCyan font-bold text-xs uppercase tracking-widest">Uji Coba Interaktif</span>
+            <h2 class="text-3xl md:text-4xl font-extrabold font-space mt-2">Simulasi Perintah Bot</h2>
+            <p class="text-gray-400 mt-3">Rasakan interaksi dengan bot langsung dari browser Anda tanpa perlu menghubungkan WhatsApp asli!</p>
+        </div>
+
+        <div class="ios-glass p-6 md:p-8 rounded-[32px] max-w-3xl mx-auto">
+            <div class="flex items-center gap-2 mb-6 border-b border-white/5 pb-4">
+                <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+                <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                <span class="text-xs text-gray-500 ml-2 font-mono">Terminal Simulator - SHINA-AI</span>
+            </div>
+
+            <!-- Simulation Screen -->
+            <div class="bg-[#0e0e11] rounded-2xl p-4 min-h-[300px] flex flex-col justify-between border border-white/5">
+                <!-- Chat Feed -->
+                <div id="sim-chat-feed" class="space-y-4 text-xs md:text-sm overflow-y-auto max-h-[280px] pr-2">
+                    <div class="text-gray-500 italic text-center text-[11px] mb-2">[ Sistem: Klik salah satu perintah instan di bawah untuk memulai simulasi ]</div>
+                </div>
+
+                <!-- Suggested Commands -->
+                <div class="mt-4 pt-4 border-t border-white/5">
+                    <p class="text-gray-500 text-[10px] uppercase font-bold tracking-wider mb-2">Pilih Perintah Instan:</p>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="sendSimulatedCmd('.menu')" class="bg-white/5 hover:bg-animePurple/20 hover:border-animePurple/40 border border-white/10 px-3 py-1.5 rounded-xl text-xs text-white transition-all">
+                            .menu
+                        </button>
+                        <button onclick="sendSimulatedCmd('.gacha')" class="bg-white/5 hover:bg-animePurple/20 hover:border-animePurple/40 border border-white/10 px-3 py-1.5 rounded-xl text-xs text-white transition-all">
+                            .gacha
+                        </button>
+                        <button onclick="sendSimulatedCmd('.ai')" class="bg-white/5 hover:bg-animePurple/20 hover:border-animePurple/40 border border-white/10 px-3 py-1.5 rounded-xl text-xs text-white transition-all">
+                            .ai [tanya bot]
+                        </button>
+                        <button onclick="sendSimulatedCmd('.sticker')" class="bg-white/5 hover:bg-animePurple/20 hover:border-animePurple/40 border border-white/10 px-3 py-1.5 rounded-xl text-xs text-white transition-all">
+                            .sticker
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing / Products Section -->
+    <section id="harga" class="py-20 bg-[#070709] border-t border-white/5 relative z-10">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-animePink font-bold text-xs uppercase tracking-widest">Pilih Level Anda</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold font-space mt-2">Daftar Paket & Layanan</h2>
+                <p class="text-gray-400 mt-3">Mulai dari akses mandiri gratis hingga sewa bot otomatis untuk grup WhatsApp Anda tanpa ribet.</p>
+            </div>
+
+            <!-- Product Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                
+                <!-- 1. Free Plan -->
+                <div class="ios-glass-card p-6 rounded-[28px] flex flex-col justify-between border border-white/5">
+                    <div>
+                        <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider bg-white/5 px-2 py-1 rounded-md">Untuk Personal</span>
+                        <h3 class="text-xl font-extrabold mt-3 font-space">Free Plan</h3>
+                        <p class="text-xs text-gray-400 mt-1">Coba bot secara gratis lewat grup.</p>
+                        <div class="my-6">
+                            <span class="text-2xl font-extrabold text-white">Rp 0</span>
+                            <span class="text-xs text-gray-500">/-</span>
+                        </div>
+                        <ul class="space-y-3 text-xs text-gray-300 border-t border-white/5 pt-4">
+                            <li><i class="fa-solid fa-check text-green-400 mr-2"></i> Akses Chat Bot (Grup Only)</li>
+                            <li><i class="fa-solid fa-check text-green-400 mr-2"></i> Limit 50 Perintah/hari</li>
+                            <li><i class="fa-solid fa-check text-green-400 mr-2"></i> Standard Respon</li>
+                            <li class="text-gray-600 line-through"><i class="fa-solid fa-xmark mr-2"></i> Sewa Bot masuk Grup</li>
+                           <li class="text-gray-600 line-through"><i class="fa-solid fa-xmark mr-2"></i> Chat Bot Pribadi</li>
+                        </ul>
+                    </div>
+                    <a href="https://wa.me/628123456789?text=Halo%20mau%20coba%20Free%20Plan%20Shina-ai" target="_blank" class="w-full mt-6 bg-white/5 hover:bg-white/10 text-center py-3 rounded-xl text-xs font-bold transition-all block">Coba Sekarang</a>
+                </div>
+
+                <!-- 2. Premium User -->
+                <div class="ios-glass-card p-6 rounded-[28px] flex flex-col justify-between border border-white/5">
+                    <div>
+                        <span class="text-[10px] text-animePurple font-bold uppercase tracking-wider bg-animePurple/10 px-2 py-1 rounded-md border border-animePurple/20">Untuk Pribadi</span>
+                        <h3 class="text-xl font-extrabold mt-3 font-space">Premium User</h3>
+                        <p class="text-xs text-gray-400 mt-1">Buka limit tanpa batasan chat privat.</p>
+                        <div class="my-6">
+                            <span class="text-2xl font-extrabold text-white">Rp 10.000</span>
+                            <span class="text-xs text-gray-500">/ bulan</span>
+                        </div>
+                        <ul class="space-y-3 text-xs text-gray-300 border-t border-white/5 pt-4">
+                             <li><i class="fa-solid fa-check text-animePurple mr-2"></i> Akses chat bot pribadi sepuas nya</li>
+                            <li><i class="fa-solid fa-check text-animePurple mr-2"></i> Unlimited Limit Perintah</li>
+                            <li><i class="fa-solid fa-check text-animePurple mr-2"></i> Akses Fitur Premium (.hd/.hdvideo)</li>
+                            <li><i class="fa-solid fa-check text-animePurple mr-2"></i> Privasi Aman 100%</li>
+                            <li class="text-gray-600 line-through"><i class="fa-solid fa-xmark mr-2"></i> Sewa Bot masuk Grup</li>
+                        </ul>
+                    </div>
+                    <a href="https://wa.me/6289654951306?text=Halo%20mau%20beli%20Premium%20User%20Shina-ai" target="_blank" class="w-full mt-6 bg-animePurple/20 hover:bg-animePurple/30 text-animePurple border border-animePurple/30 text-center py-3 rounded-xl text-xs font-bold transition-all block">Beli Premium</a>
+                </div>
+
+                <!-- 3. Sewa Basic (Grup) -->
+                <div class="ios-glass-card p-6 rounded-[28px] flex flex-col justify-between border border-white/5">
+                    <div>
+                        <span class="text-[10px] text-animeCyan font-bold uppercase tracking-wider bg-animeCyan/10 px-2 py-1 rounded-md border border-animeCyan/20">Sewa Grup Basic</span>
+                        <h3 class="text-xl font-extrabold mt-3 font-space">Sewa Basic</h3>
+                        <p class="text-xs text-gray-400 mt-1">Undang bot ke grup impian Anda.</p>
+                        <div class="my-6">
+                            <span class="text-2xl font-extrabold text-white">Rp 15.000</span>
+                            <span class="text-xs text-gray-500">/ bulan</span>
+                        </div>
+                        <ul class="space-y-3 text-xs text-gray-300 border-t border-white/5 pt-4">
+                            <li><i class="fa-solid fa-check text-animeCyan mr-2"></i> Standard Bot Ke Grup</li>
+                            <li><i class="fa-solid fa-check text-animeCyan mr-2"></i> Aktif 24/7 (Non-stop)</li>
+                            <li><i class="fa-solid fa-check text-animeCyan mr-2"></i> Akses Fitur Admin</li>
+                            <li><i class="fa-solid fa-check text-animeCyan mr-2"></i> Aksed Fitur Games</li>
+                           <li class="text-gray-600 line-through"><i class="fa-solid fa-xmark mr-2"></i> Tidak dapat Premium User</li>
+                           <li class="text-gray-600 line-through"><i class="fa-solid fa-xmark mr-2"></i> Semua Member tidak dapat menggunakan Fitur Premium (Only Grup)</li>
+                        </ul>
+                    </div>
+                    <a href="https://wa.me/6289654951306?text=Halo%20mau%20Sewa%20Basic%20Shina-ai" target="_blank" class="w-full mt-6 bg-white/5 hover:bg-white/10 text-center py-3 rounded-xl text-xs font-bold transition-all block">Sewa Sekarang</a>
+                </div>
+
+                <!-- 4. Sewa Plus (BEST SELLER) -->
+                <div class="ios-glass-card p-6 rounded-[28px] flex flex-col justify-between border-2 border-animePink relative shadow-2xl">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-animePink to-animePurple text-white text-[9px] font-extrabold tracking-widest px-3 py-1 rounded-full uppercase shadow-md">
+                        Terpopuler
+                    </div>
+                    <div>
+                        <span class="text-[10px] text-animePink font-bold uppercase tracking-wider bg-animePink/10 px-2 py-1 rounded-md border border-animePink/20">Sewa Grup Plus</span>
+                        <h3 class="text-xl font-extrabold mt-3 font-space">Sewa Plus</h3>
+                        <p class="text-xs text-gray-400 mt-1">Solusi terbaik untuk komunitas aktif.</p>
+                        <div class="my-6">
+                            <span class="text-2xl font-extrabold text-white">Rp 25.000</span>
+                            <span class="text-xs text-gray-500">/ bulan</span>
+                        </div>
+                        <ul class="space-y-3 text-xs text-gray-300 border-t border-white/5 pt-4">
+                            <li><i class="fa-solid fa-check text-animePink mr-2"></i> Bot Aktif 24/7 (Non-stop)</li>
+                            <li><i class="fa-solid fa-check text-animePink mr-2"></i> Akses Fitur Admin</li>
+                            <li><i class="fa-solid fa-check text-animePink mr-2"></i> Akses Fitur Game</li>
+                            <li><i class="fa-solid fa-check text-animePink mr-2"></i> Dapat Premium User (1 Nomor Admin)</li>
+                            <li class="text-gray-600 line-through"><i class="fa-solid fa-xmark mr-2"></i> Semua Member tidak dapat menggunakan Fitur Premium (Only Grup)</li>
+                        </ul>
+                    </div>
+                    <a href="https://wa.me/6289654951306?text=Halo%20mau%20Sewa%20Plus%20Shina-ai" target="_blank" class="w-full mt-6 bg-gradient-to-r from-animePink to-animePurple text-white text-center py-3 rounded-xl text-xs font-bold transition-all block hover:opacity-90">Sewa Sekarang</a>
+                </div>
+
+                <!-- 5. Sewa VVIP -->
+                <div class="ios-glass-card p-6 rounded-[28px] flex flex-col justify-between border border-white/5">
+                    <div>
+                        <span class="text-[10px] text-yellow-400 font-bold uppercase tracking-wider bg-yellow-400/10 px-2 py-1 rounded-md border border-yellow-400/20">Unlimited VIP</span>
+                        <h3 class="text-xl font-extrabold mt-3 font-space">Sewa VVIP</h3>
+                        <p class="text-xs text-gray-400 mt-1">Kontrol total dan kepemilikan tinggi.</p>
+                        <div class="my-6">
+                            <span class="text-2xl font-extrabold text-white">Rp 50.000</span>
+                            <span class="text-xs text-gray-500">/ bulan</span>
+                        </div>
+                        <ul class="space-y-3 text-xs text-gray-300 border-t border-white/5 pt-4">
+                            <li><i class="fa-solid fa-check text-yellow-400 mr-2"></i> Bot Aktif 24/7 (Non-Stop)</li>
+                            <li><i class="fa-solid fa-check text-yellow-400 mr-2"></i> Akses Fitur Admin</li>
+                            <li><i class="fa-solid fa-check text-yellow-400 mr-2"></i> Akses Fitur Game</li>
+                            <li><i class="fa-solid fa-check text-yellow-400 mr-2"></i> Dapat Premium User (1 Nomor Admin)</li>
+                            <li><i class="fa-solid fa-check text-yellow-400 mr-2"></i> Semua member dapat menggunakan Fitur Premium (Only Grup)</li>
+                        </ul>
+                    </div>
+                    <a href="https://wa.me/628123456789?text=Halo%20mau%20Sewa%20VVIP%20Shina-ai" target="_blank" class="w-full mt-6 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 border border-yellow-400/30 text-center py-3 rounded-xl text-xs font-bold transition-all block">Sewa Sekarang</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Owner Contact Section -->
+    <section id="kontak" class="py-20 bg-[#0a0a0c] relative z-10 border-t border-white/5">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-animePurple font-bold text-xs uppercase tracking-widest">Hubungi Kami</span>
+                <h2 class="text-3xl font-extrabold font-space mt-2">Kontak Owner</h2>
+                <p class="text-gray-400 mt-2">Punya pertanyaan khusus, custom fitur, atau butuh bantuan instalasi? Hubungi langsung Owner kami.</p>
+            </div>
+
+            <!-- Glassmorphic iOS Contact Card -->
+            <div class="ios-glass p-8 rounded-[36px] border border-white/10 shadow-2xl relative overflow-hidden">
+                <!-- Decorative background elements -->
+                <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-animePurple/20 rounded-full blur-2xl"></div>
+                <div class="absolute -left-10 -top-10 w-40 h-40 bg-animePink/20 rounded-full blur-2xl"></div>
+
+                <div class="flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
+                    <div class="flex items-center gap-5 text-center md:text-left flex-col md:flex-row">
+                        <!-- Owner Avatar -->
+                        <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-animePurple to-animePink p-[2px] shadow-lg">
+                            <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Babas" alt="Babas Avatar" class="w-full h-full rounded-full bg-[#1c1c1e]">
+                        </div>
+                        <div>
+                            <span class="bg-animePink/15 text-animePink text-[10px] font-bold px-3 py-1 rounded-full border border-animePink/30 uppercase tracking-wider">Founder & Lead Dev</span>
+                            <h3 class="text-2xl font-black text-white mt-1.5 font-space tracking-wide">BABAS</h3>
+                            <p class="text-gray-400 text-sm mt-0.5">Siap membantu setup bot untuk kebutuhan komunitas Anda.</p>
+                        </div>
+                    </div>
+
+                    <!-- Contact Buttons List -->
+                    <div class="flex flex-col gap-3 w-full md:w-auto">
+                        <a href="https://wa.me/6289654951306?text=Halo%20Owner%20Babas,%20saya%20tertarik%20dengan%20Shina-ai" target="_blank" class="flex items-center justify-center gap-3 bg-[#25d366]/10 hover:bg-[#25d366]/20 text-[#25d366] border border-[#25d366]/30 font-semibold px-6 py-3 rounded-2xl transition-all active:scale-95 text-sm">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp Me
+                        </a>
+                        <a href="https://www.tiktok.com/@babasbot?_r=1&_t=ZS-983u1yRB6Wa" target="_blank" class="flex items-center justify-center gap-3 bg-black/40 hover:bg-black/60 text-white border border-white/10 font-semibold px-6 py-3 rounded-2xl transition-all active:scale-95 text-sm"> <i class="fa-brands fa-tiktok text-lg text-animePink"></i> TikTok Profile </a>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-12 text-center text-xs text-gray-500 relative z-10 bg-iosDark">
+        <p class="mb-4">© 2026 BABAS. All Rights Reserved.</p>
+        <div class="flex justify-center gap-6">
+            <a href="#" class="hover:text-white transition">Kebijakan Privasi</a>
+            <a href="#" class="hover:text-white transition">Ketentuan Layanan</a>
+            <a href="https://wa.me/628123456789" class="hover:text-white transition">Hubungi Developer</a>
+        </div>
+    </footer>
+
+    <!-- Interactive Simulator Logic (JS) -->
+    <script>
+        const chatFeed = document.getElementById('sim-chat-feed');
+
+        // Contoh Database Jawaban Bot untuk Simulasi
+        const replies = {
+            '.menu': `
+<b>✨ SHINA-AI MENU ✨</b><br>
+━━━━━━━━━━━━━━━━━━<br>
+⚡ <b>ANIME COMMANDS</b><br>
+├ .waifu - <i>Random waifu image</i><br>
+├ .neko - <i>Cute neko girl</i><br>
+└ .trace - <i>Cari judul anime lewat gambar</i><br><br>
+🎮 <b>GAMES & RPG</b><br>
+├ .gacha - <i>Gacha Waifu/Husbu Bintang 5</i><br>
+├ .adventure - <i>Mulai petualangan RPG</i><br>
+└ .claim - <i>Ambil reward harian</i><br><br>
+⚙️ <b>GROUP COMMANDS</b><br>
+├ .kick / .add<br>
+├ .welcome [on/off]<br>
+└ .hidetag [teks]
+            `,
+            '.gacha': `
+<b>🔮 GACHA SENSASI ANIME 🔮</b><br>
+━━━━━━━━━━━━━━━━━━<br>
+🎉 Selamat! Anda mendapatkan:<br>
+⭐ <b>[ ★★★★★ ] Kamado Nezuko</b><br>
+🛡️ Elemen: Fire / Demonic<br>
+✨ Status: Rare Limited Edition!<br><br>
+<i>"Gacha lagi menggunakan perintah .gacha"</i>
+            `,
+            '.ai': `
+<b>🤖 SHINA-AI ASSISTANT 🤖</b><br>
+━━━━━━━━━━━━━━━━━━<br>
+Halo Kak! Saya adalah <b>Shina-ai</b>, asisten pintar berbasis AI yang siap melayani segala kebutuhan Anda di WhatsApp.<br><br>
+Saya dikembangkan dan dikelola langsung oleh <b>Kak Babas</b> ✨. Apakah ada yang bisa saya bantu hari ini?
+            `,
+            '.sticker': `
+<b>📷 STICKER GENERATOR 📷</b><br>
+━━━━━━━━━━━━━━━━━━<br>
+🖼️ <i>[Mengubah gambar menjadi stiker...]</i><br>
+✅ Sukses mengubah gambar/GIF menjadi stiker WhatsApp berkualitas HD tanpa watermark!
+            `
+        };
+
+        function sendSimulatedCmd(cmd) {
+            // Bersihkan sapaan awal jika ada
+            if (chatFeed.innerHTML.includes('[ Sistem:')) {
+                chatFeed.innerHTML = '';
+            }
+
+            // Tambahkan Chat User
+            const userMsg = document.createElement('div');
+            userMsg.className = 'flex justify-end';
+            userMsg.innerHTML = `
+                <div class="bg-animePurple text-white px-3 py-2 rounded-2xl rounded-tr-none max-w-[80%] shadow-md">
+                    ${cmd}
+                </div>
+            `;
+            chatFeed.appendChild(userMsg);
+            chatFeed.scrollTop = chatFeed.scrollHeight;
+
+            // Efek mengetik bot (Delay)
+            const typingMsg = document.createElement('div');
+            typingMsg.className = 'flex justify-start items-center gap-1.5 text-gray-500 italic text-[10px]';
+            typingMsg.id = 'bot-typing-indicator';
+            typingMsg.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin text-animePurple"></i> Shina-ai sedang mengetik...`;
+            chatFeed.appendChild(typingMsg);
+            chatFeed.scrollTop = chatFeed.scrollHeight;
+
+            setTimeout(() => {
+                // Hapus efek mengetik
+                const indicator = document.getElementById('bot-typing-indicator');
+                if (indicator) indicator.remove();
+
+                // Tambahkan Chat Bot
+                const botMsg = document.createElement('div');
+                botMsg.className = 'flex justify-start';
+                botMsg.innerHTML = `
+                    <div class="bg-[#1c1c1e] text-gray-300 px-3 py-2 rounded-2xl rounded-tl-none max-w-[90%] border border-white/5 shadow-md leading-relaxed">
+                        ${replies[cmd] || 'Perintah tidak dikenali dalam mode demo.'}
+                    </div>
+                `;
+                chatFeed.appendChild(botMsg);
+                chatFeed.scrollTop = chatFeed.scrollHeight;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
